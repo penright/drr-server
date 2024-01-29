@@ -10,7 +10,9 @@ import (
 func main() {
 	config := config.FiberConfig()
 	app := fiber.New(config)
+	app.Static("/", "./angular/browser")
 	api := app.Group("/api")
 	route.Routes(api)
-	app.Listen(":3000")
+	app.Get("/*", func(c *fiber.Ctx) error { return c.SendFile("./angular/browser/index.html") })
+	app.Listen(":9091")
 }
